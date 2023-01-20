@@ -9,6 +9,7 @@ import {
 import theme from "./src/theme";
 import { Splash } from "@screens/Splash";
 import { Home } from "@screens/Home";
+import { Statistics } from "@screens/Statistics";
 
 export default function App() {
   const [fontsLoaded] = useFonts({ NunitoSans_400Regular, NunitoSans_700Bold });
@@ -20,7 +21,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <Home /> : <Splash />}
+      {fontsLoaded ? <Statistics /> : <Splash />}
     </ThemeProvider>
   );
 }
