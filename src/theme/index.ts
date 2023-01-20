@@ -11,7 +11,7 @@ export default {
     RED_LIGHT: "#F4E6E7",
 
     GRAY_100: "#FAFAFA",
-    GRAY_200: "#DDDEDF",
+    GRAY_200: "#EFF0F0",
     GRAY_300: "#DDDEDF",
     GRAY_400: "#B9BBBC",
     GRAY_500: "#5C6265",

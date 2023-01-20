@@ -1,4 +1,4 @@
-import { Text, StatusBar } from "react-native";
+import { StatusBar } from "react-native";
 import { ThemeProvider } from "styled-components/native";
 import {
   useFonts,
@@ -7,6 +7,8 @@ import {
 } from "@expo-google-fonts/nunito-sans";
 
 import theme from "./src/theme";
+import { Splash } from "@screens/Splash";
+import { Home } from "@screens/Home";
 
 export default function App() {
   const [fontsLoaded] = useFonts({ NunitoSans_400Regular, NunitoSans_700Bold });
@@ -14,13 +16,11 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <StatusBar
-        barStyle="light-content"
+        barStyle="dark-content"
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded && (
-        <Text>Open up App.tsx to start working on your app!</Text>
-      )}
+      {fontsLoaded ? <Home /> : <Splash />}
     </ThemeProvider>
   );
 }
