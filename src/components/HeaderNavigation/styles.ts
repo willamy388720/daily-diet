@@ -7,6 +7,7 @@ export const Container = styled.SafeAreaView`
   padding: 0 24px;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 `;
 
 export const Title = styled.Text`
@@ -15,5 +16,4 @@ export const Title = styled.Text`
     font-size: ${theme.FONT_SIZE.LG}px;
     color: ${theme.COLORS.GRAY_700};
   `}
-  margin-left: 85px;
 `;
