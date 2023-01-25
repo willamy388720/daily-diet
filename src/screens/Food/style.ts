@@ -1,9 +1,7 @@
 import styled, { css } from "styled-components/native";
 
-export type HeaderTypeStyleProps = "OKAY" | "NOT_OKAY";
-
 type Props = {
-  type: HeaderTypeStyleProps;
+  type: boolean;
 };
 
 export const Container = styled.View`
@@ -13,7 +11,7 @@ export const Container = styled.View`
 
 export const Header = styled.View<Props>`
   background-color: ${({ theme, type }) =>
-    type === "OKAY" ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT};
+    type ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT};
   padding-bottom: 24px;
 `;
 
@@ -75,7 +73,7 @@ export const LittleBall = styled.View<Props>`
   height: 8px;
   border-radius: 4px;
   background-color: ${({ theme, type }) =>
-    type === "OKAY" ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK};
+    type ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK};
   margin-right: 8px;
 `;
 

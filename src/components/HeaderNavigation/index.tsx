@@ -1,7 +1,9 @@
-import { Container, Title } from "./styles";
-import { ArrowLeft } from "phosphor-react-native";
-import { useTheme } from "styled-components/native";
 import { TouchableOpacity, View } from "react-native";
+import { useTheme } from "styled-components/native";
+import { ArrowLeft } from "phosphor-react-native";
+import { useNavigation } from "@react-navigation/native";
+
+import { Container, Title } from "./styles";
 
 type ButtonIconTypeProps = "DEFAULT" | "SUCCESS" | "DANGER";
 
@@ -13,6 +15,8 @@ type Props = {
 export function HeaderNavigation({ type, title }: Props) {
   const { COLORS } = useTheme();
 
+  const navigation = useNavigation();
+
   function colorArrowLeft() {
     switch (type) {
       case "DEFAULT":
@@ -23,9 +27,14 @@ export function HeaderNavigation({ type, title }: Props) {
         return COLORS.RED_DARK;
     }
   }
+
+  function handleGoHome() {
+    navigation.navigate("home");
+  }
+
   return (
     <Container>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleGoHome}>
         <ArrowLeft size={24} color={colorArrowLeft()} />
       </TouchableOpacity>
       <Title>{title}</Title>

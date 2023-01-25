@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { SectionList, Text, View } from "react-native";
+import { useCallback, useState } from "react";
+import { Alert, SectionList, View } from "react-native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import {
   Avatar,
@@ -17,49 +18,71 @@ import avatarImg from "@assets/avatar.jpg";
 import { Percent } from "@components/Percent";
 import { ButtonPercent } from "@components/ButtonPercent";
 import { Button } from "@components/Button";
-import { DietItem, DietItemProps } from "@components/DietItem";
+import { DietItem } from "@components/DietItem";
+import { dateGetAll } from "@storage/date/dateGetAll";
+import { foodGetAll } from "@storage/food/foodGetAll";
 
-const DATA = [
-  {
-    title: "12.08.22",
-    data: [
-      { hour: "20:00", food: "Pizza", isOnTheDiet: "NÃO" },
-      { hour: "18:00", food: "Burger", isOnTheDiet: "NÃO" },
-      { hour: "15:30", food: "Risotto", isOnTheDiet: "SIM" },
-    ],
-  },
-  {
-    title: "11.08.22",
-    data: [
-      { hour: "21:45", food: "French Fries", isOnTheDiet: "SIM" },
-      { hour: "19:05", food: "Onion Rings", isOnTheDiet: "SIM" },
-      { hour: "10:00", food: "Fried Shrimps", isOnTheDiet: "NÃO" },
-    ],
-  },
-  {
-    title: "09.08.22",
-    data: [
-      { hour: "15:00", food: "Water", isOnTheDiet: "SIM" },
-      { hour: "12:00", food: "Coke", isOnTheDiet: "NÃO" },
-      { hour: "07:00", food: "Beer", isOnTheDiet: "NÃO" },
-    ],
-  },
-  {
-    title: "01.08.22",
-    data: [
-      { hour: "20:00", food: "Cheese Cake", isOnTheDiet: "NÃO" },
-      { hour: "16:00", food: "Ice Cream", isOnTheDiet: "NÃO" },
-    ],
-  },
-];
-
-type ItemProps = {
+export type ItemProps = {
   title: string;
-  data: DietItemProps[];
+  data: FoodStorageDTO[];
 };
 
 export function Home() {
-  const [data, setData] = useState<ItemProps[]>(DATA);
+  const [data, setData] = useState<ItemProps[]>([]);
+  const [percent, setPercent] = useState(0);
+  const [percentageTreated, setPercentageTreated] = useState("");
+
+  const navigation = useNavigation();
+
+  function handleStatitics() {
+    navigation.navigate("statistics", { percentage: percentageTreated });
+  }
+
+  function handleNewFood() {
+    navigation.navigate("formFood");
+  }
+
+  function handleFood(date: string, name: string) {
+    navigation.navigate("food", { date, name });
+  }
+
+  function calculatePercentage(foods: FoodStorageDTO[]) {
+    const total = foods.length;
+    const isOnTheDiet = foods.filter(
+      (food) => food.isOnTheDiet === "SIM"
+    ).length;
+
+    const foodPercentage = (100 * isOnTheDiet) / total;
+
+    setPercent(foodPercentage);
+    setPercentageTreated(foodPercentage.toFixed(2).replace(".", ","));
+  }
+
+  async function fetchFoods() {
+    try {
+      const storedDates = await dateGetAll();
+      const storedFoods = await foodGetAll();
+
+      calculatePercentage(storedFoods);
+
+      const storage = storedDates.map((storedDate) => {
+        return {
+          title: storedDate,
+          data: storedFoods.filter((food) => food.date === storedDate),
+        };
+      });
+
+      setData(storage);
+    } catch (error) {
+      Alert.alert("Refeições", "Não foi possível carregar as Refeições!");
+    }
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchFoods();
+    }, [])
+  );
 
   return (
     <Container>
@@ -67,24 +90,33 @@ export function Home() {
         <Logo source={logoImg} />
         <Avatar source={avatarImg} />
       </Header>
-      <ButtonPercent>
-        <Percent />
+      <ButtonPercent
+        type={percent >= 60 ? "PRIMARY" : "DANGER"}
+        onPress={handleStatitics}
+      >
+        <Percent percent={percentageTreated} />
       </ButtonPercent>
       <SectionList
-        sections={DATA}
-        keyExtractor={(item, index) => item.food + index}
+        sections={data}
+        keyExtractor={(item, index) => item.name + index}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 90 }}
         ListHeaderComponent={() => (
           <ListHeader>
             <ListHeaderTitle>Refeições</ListHeaderTitle>
-            <Button title="Nova refeição" iconName="Plus" />
+            <Button
+              title="Nova refeição"
+              iconName="Plus"
+              onPress={handleNewFood}
+            />
           </ListHeader>
         )}
         renderItem={({ item }) => (
           <DietItem
             hour={item.hour}
-            food={item.food}
+            food={item.name}
             isOnTheDiet={item.isOnTheDiet}
+            onPress={() => handleFood(item.date, item.name)}
           />
         )}
         renderSectionHeader={({ section: { title } }) => (

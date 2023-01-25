@@ -1,3 +1,4 @@
+import { TouchableOpacityProps } from "react-native";
 import {
   Container,
   ContainerHourAndFood,
@@ -7,15 +8,15 @@ import {
   Separator,
 } from "./styles";
 
-export type DietItemProps = {
+type DietItemProps = TouchableOpacityProps & {
   hour: string;
   food: string;
   isOnTheDiet: string;
 };
 
-export function DietItem({ hour, food, isOnTheDiet }: DietItemProps) {
+export function DietItem({ hour, food, isOnTheDiet, ...rest }: DietItemProps) {
   return (
-    <Container>
+    <Container {...rest}>
       <ContainerHourAndFood>
         <Hour>{hour}</Hour>
         <Separator />

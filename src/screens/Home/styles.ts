@@ -26,7 +26,6 @@ export const Avatar = styled.Image`
 `;
 
 export const ListHeader = styled.View`
-  flex: 1;
   margin-top: 40px;
 `;
 
@@ -37,6 +36,7 @@ export const ListHeaderTitle = styled.Text`
     color: ${theme.COLORS.GRAY_700};
   `}
   margin-bottom: 8px;
+  flex: 1;
 `;
 
 export const SectionHeader = styled.Text`
@@ -52,8 +52,8 @@ export const SectionHeader = styled.Text`
 export const Footer = styled(LinearGradient).attrs(({ theme }) => ({
   colors: ["transparent", `${theme.COLORS.GRAY_100}`],
 }))`
-  min-height: 150px;
-  max-height: 150px;
+  min-height: 140px;
+  max-height: 140px;
   width: 100%;
   position: absolute;
   bottom: 0;

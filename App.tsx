@@ -8,11 +8,7 @@ import {
 
 import theme from "./src/theme";
 import { Splash } from "@screens/Splash";
-import { Home } from "@screens/Home";
-import { Statistics } from "@screens/Statistics";
-import { FormFood } from "@screens/FormFood";
-import { Feedback } from "@screens/Feedback";
-import { Food } from "@screens/Food";
+import { Routes } from "./src/routes";
 
 export default function App() {
   const [fontsLoaded] = useFonts({ NunitoSans_400Regular, NunitoSans_700Bold });
@@ -24,7 +20,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <Food /> : <Splash />}
+      {fontsLoaded ? <Routes /> : <Splash />}
     </ThemeProvider>
   );
 }

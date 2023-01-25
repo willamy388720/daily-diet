@@ -1,10 +1,8 @@
 import { TouchableOpacity } from "react-native";
 import styled, { css } from "styled-components/native";
 
-export type SelectOptions = "SIM" | "NÃO";
-
 type Props = {
-  option: SelectOptions;
+  option: string;
   selected: boolean;
 };
 
@@ -44,7 +42,7 @@ export const Container = styled(TouchableOpacity)<Props>`
   justify-content: center;
 `;
 
-export const LittleBall = styled.View<{ option: SelectOptions }>`
+export const LittleBall = styled.View<{ option: string }>`
   width: 8px;
   height: 8px;
   border-radius: 4px;

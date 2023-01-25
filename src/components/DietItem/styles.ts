@@ -6,7 +6,7 @@ type Props = {
 };
 
 export const Container = styled(TouchableOpacity)`
-  flex: 1;
+  /* flex: 1; */
   border: 1px solid ${({ theme }) => theme.COLORS.GRAY_300};
   margin-bottom: 8px;
   min-height: 50px;

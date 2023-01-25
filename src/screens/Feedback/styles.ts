@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components/native";
 
-export type DietTypeStyleProps = "OKAY" | "NOT_OKAY";
+type DietTypeStyleProps = "OKAY" | "NOT_OKAY";
 
 type Props = {
   type: DietTypeStyleProps;
